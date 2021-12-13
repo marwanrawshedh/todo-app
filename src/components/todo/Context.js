@@ -8,9 +8,14 @@ const ContextData = (props) => {
   const [list, setList] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem);
+  const get=localStorage.getItem("num");
+  const [changeSetting, setChangeSetting] = useState(get?get:2);
+  let [isTrue, setIsTrue] = useState(false);
+  localStorage.setItem("num",changeSetting);
+  
+
 
   function addItem(item) {
-    console.log(item);
     item.id = uuid();
     item.complete = false;
     setList([...list, item]);
@@ -48,6 +53,7 @@ const ContextData = (props) => {
           toggleComplete,
           deleteItem,
           handleSubmit,
+          setChangeSetting,isTrue, setIsTrue,changeSetting
         }}
       >
         {props.children}

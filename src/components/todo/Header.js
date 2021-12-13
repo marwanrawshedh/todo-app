@@ -1,12 +1,21 @@
 import React,{useContext} from 'react';
-import {ContextHandle}  from'./Context'
+
+import { Link } from 'react-router-dom';
 import "./header.css";
 function Header(props) {
-    const data = useContext(ContextHandle);
+    
    
     return (
         <header>
-        <h1>To Do List: {data.incomplete} items pending</h1>
+          <div>
+
+          <button >
+
+          <Link to="/"> HOME</Link>
+          </button>
+          <button><Link to="/setting"> setting</Link></button>
+          </div>
+        
       </header>
     );
 }

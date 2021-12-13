@@ -5,24 +5,26 @@ import "./header.css";
 
 function Form(props) {
   const data = useContext(ContextHandle);
+  const get=localStorage.getItem("num");
+  
   const [pageNumber, setPageNumber] = useState({
     start: 0,
-    end: 5,
+    end:  get,
     numPages: 1,
     cure: 1,
   });
   useEffect(() => {
     setPageNumber({
       ...pageNumber,
-      numPages: Math.ceil(data.list.length / 5),
+      numPages: Math.ceil(data.list.length / get),
     });
-  }, [Math.ceil(data.list.length / 5)]);
+  }, [Math.ceil(data.list.length / get)]);
   function handelNext() {
     if (pageNumber.cure <= pageNumber.numPages - 1) {
       setPageNumber({
         ...pageNumber,
-        start: pageNumber.start + 5,
-        end: pageNumber.end + 5,
+        start: pageNumber.start + get,
+        end: pageNumber.end + get,
         cure: pageNumber.cure + 1,
       });
     }
@@ -31,8 +33,8 @@ function Form(props) {
     if (pageNumber.cure - 1 > 0) {
       setPageNumber({
         ...pageNumber,
-        start: pageNumber.start - 5,
-        end: pageNumber.end - 5,
+        start: pageNumber.start - get,
+        end: pageNumber.end - get,
         cure: pageNumber.cure - 1,
       });
     }
@@ -79,7 +81,7 @@ function Form(props) {
             <button type="submit">Add Item</button>
           </label>
         </form>
-
+{/* <button onClick={()=>{data.setChangecomplete(data.changecomplete?false:true)}}> {`${data.changecomplete}`}</button> */}
         <div>
           <button onClick={() => handelPrev()}>prev</button>
           <label>
@@ -88,8 +90,8 @@ function Form(props) {
           <button onClick={() => handelNext()}>next</button>
         </div>
       </Card>
-      {/* {props.list.slice(pageNumber.start, pageNumber.end) */}
-      {data.list.slice(pageNumber.start, pageNumber.end).map((item) => (
+    
+      {data.isTrue&&data.list.slice(pageNumber.start, pageNumber.end).map((item) => (
         <div className="card" key={item.id}>
           <Card interactive={true} elevation={Elevation.FOUR}>
             <p>{item.text}</p>
@@ -100,9 +102,28 @@ function Form(props) {
               <small>Difficulty: {item.difficulty}</small>
             </p>
             <div>Complete: {item.complete.toString()}</div>
-            {/* <Button onClick={() => data.toggleComplete(item.id)}>
+            <Button onClick={() => data.toggleComplete(item.id)}>
               complete
-            </Button> */}
+            </Button>
+
+          </Card>
+        </div>
+      ))}
+        {!data.isTrue&&data.list.filter(word => word.complete === false).slice(pageNumber.start, pageNumber.end).map((item) => (
+        <div className="card" key={item.id}>
+          <Card interactive={true} elevation={Elevation.FOUR}>
+            <p>{item.text}</p>
+            <p>
+              <small>Assigned to: {item.assignee}</small>
+            </p>
+            <p>
+              <small>Difficulty: {item.difficulty}</small>
+            </p>
+            <div>Complete: {item.complete.toString()}</div>
+            <Button onClick={() => data.toggleComplete(item.id)}>
+              complete
+            </Button>
+            
           </Card>
         </div>
       ))}
