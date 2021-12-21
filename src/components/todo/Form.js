@@ -112,12 +112,18 @@ function Form(props) {
                     <small>Difficulty: {item.difficulty}</small>
                   </p>
                   <div>Complete: {item.complete.toString()}</div>
-                  <Button onClick={() => data.toggleComplete(item.id)}>
-                    complete
-                  </Button>
-                  <Button onClick={() => data.deleteItem(item.id)}>
+                  <When condition={data1.can("update")}>
+
+                    <Button onClick={() => data.toggleComplete(item.id)}>
+                      complete
+
+                    </Button>
+                    </When>
+                      <When condition={data1.can("delete")}>
+                    <Button onClick={() => data.deleteItem(item.id)}>
                    delete
                   </Button>
+                      </When>
                 </Card>
               </div>
             ))}
